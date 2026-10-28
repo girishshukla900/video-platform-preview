@@ -1,0 +1,245 @@
+/* Design tokens — one source of truth for colour, type, spacing, radius, motion.
+   Light and dark are both defined; the system preference picks one.
+   No brand colour is final: --accent is a placeholder to be replaced on approval. */
+
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #eeede8;
+  --text: #17181a;
+  --text-muted: #5d6066;
+  --border: #d9d7d0;
+  --accent: #1f5f5b;
+  --accent-contrast: #ffffff;
+  --warn-bg: #fff4d6;
+  --warn-text: #6b4a00;
+
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans",
+    "Noto Sans Devanagari", "Noto Sans Tamil", "Noto Sans Bengali", sans-serif;
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.0625rem;
+  --step-2: 1.375rem;
+  --step-3: 1.75rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --radius-1: 8px;
+  --radius-2: 14px;
+  --radius-3: 22px;
+  --shadow-1: 0 1px 2px rgba(20, 20, 20, 0.06), 0 6px 18px rgba(20, 20, 20, 0.05);
+  --motion: 140ms ease;
+  --tap: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101214;
+    --surface: #181b1e;
+    --surface-2: #22262a;
+    --text: #f2f1ee;
+    --text-muted: #a4a8ae;
+    --border: #2e3338;
+    --accent: #6fd3c7;
+    --accent-contrast: #10201f;
+    --warn-bg: #33290d;
+    --warn-text: #f0d089;
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 22px rgba(0, 0, 0, 0.35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- layout ---------- */
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.wordmark {
+  font-weight: 700; letter-spacing: -0.02em; font-size: var(--step-1);
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.wordmark .dot {
+  width: 10px; height: 10px; border-radius: 3px;
+  background: var(--accent); display: inline-block;
+}
+.temp-tag {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); border: 1px dashed var(--border);
+  padding: 2px 6px; border-radius: 999px;
+}
+
+.topbar form { flex: 1; display: flex; }
+.searchbox {
+  flex: 1; min-height: var(--tap);
+  border: 1px solid var(--border); border-radius: var(--radius-3);
+  background: var(--surface); color: var(--text);
+  padding: 0 var(--space-4); font: inherit;
+}
+
+.main { flex: 1; width: 100%; max-width: 1080px; margin: 0 auto; padding: var(--space-4); padding-bottom: 96px; }
+
+.bottomnav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottomnav a {
+  min-height: var(--tap); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+  font-size: var(--step--1); color: var(--text-muted);
+  padding: var(--space-2) 0;
+}
+.bottomnav a.active { color: var(--accent); font-weight: 600; }
+
+@media (min-width: 860px) {
+  .bottomnav { display: none; }
+  .main { padding-bottom: var(--space-6); }
+}
+
+/* ---------- notice ---------- */
+
+.demo-banner {
+  background: var(--warn-bg); color: var(--warn-text);
+  border: 1px solid color-mix(in srgb, var(--warn-text) 25%, transparent);
+  border-radius: var(--radius-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--step--1);
+  margin-bottom: var(--space-4);
+}
+
+/* ---------- tabs + chips ---------- */
+
+.tabs { display: flex; gap: var(--space-2); overflow-x: auto; padding-bottom: var(--space-2); }
+.chip {
+  display: inline-flex; align-items: center; min-height: 36px;
+  padding: 0 var(--space-3); border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font-size: var(--step--1); white-space: nowrap;
+  transition: background var(--motion), border-color var(--motion);
+}
+.chip[data-active="true"] {
+  background: var(--accent); color: var(--accent-contrast); border-color: var(--accent);
+}
+
+/* ---------- video grid ---------- */
+
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+@media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-2); overflow: hidden;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--motion);
+}
+.card:hover { transform: translateY(-2px); }
+.card .thumb {
+  aspect-ratio: 16 / 9; background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: var(--step--1);
+  position: relative;
+}
+.card .thumb .dur {
+  position: absolute; right: var(--space-2); bottom: var(--space-2);
+  background: rgba(0, 0, 0, 0.72); color: #fff;
+  font-size: 11px; padding: 2px 6px; border-radius: 6px;
+}
+.card .body { padding: var(--space-3); }
+.card h3 { margin: 0 0 var(--space-1); font-size: var(--step-0); font-weight: 600; line-height: 1.35; }
+.card .meta { color: var(--text-muted); font-size: var(--step--1); margin: 0; }
+
+/* ---------- states ---------- */
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--radius-2);
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  .card:hover { transform: none; }
+}
+
+.state {
+  border: 1px dashed var(--border); border-radius: var(--radius-2);
+  padding: var(--space-5); text-align: center; color: var(--text-muted);
+  background: var(--surface);
+}
+.state h2 { margin: 0 0 var(--space-2); font-size: var(--step-1); color: var(--text); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--tap); padding: 0 var(--space-4);
+  border-radius: var(--radius-3); border: 1px solid var(--accent);
+  background: var(--accent); color: var(--accent-contrast);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
+
+/* ---------- watch ---------- */
+
+.player-wrap {
+  border-radius: var(--radius-2); overflow: hidden; background: #000;
+  border: 1px solid var(--border);
+}
+video { display: block; width: 100%; height: auto; }
+
+.watch h1 { font-size: var(--step-2); line-height: 1.25; margin: var(--space-4) 0 var(--space-2); }
+.watch .byline { color: var(--text-muted); font-size: var(--step--1); margin-bottom: var(--space-4); }
+.watch .desc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-2); padding: var(--space-4); }
+
+.why {
+  border-left: 3px solid var(--accent);
+  padding: var(--space-2) var(--space-4);
+  color: var(--text-muted); font-size: var(--step--1);
+  background: var(--surface);
+  border-radius: 0 var(--radius-1) var(--radius-1) 0;
+  margin-bottom: var(--space-4);
+}
+
+.chapters { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chapters li a { font-size: var(--step--1); color: var(--accent); }
+
+.section-title { font-size: var(--step-1); margin: var(--space-5) 0 var(--space-3); }
