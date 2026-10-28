@@ -243,3 +243,13 @@ video { display: block; width: 100%; height: auto; }
 .chapters li a { font-size: var(--step--1); color: var(--accent); }
 
 .section-title { font-size: var(--step-1); margin: var(--space-5) 0 var(--space-3); }
+
+.live-banner {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: var(--radius-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--step--1);
+  margin-bottom: var(--space-4);
+}
