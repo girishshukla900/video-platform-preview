@@ -1,0 +1,19 @@
+{
+  "name": "prototype — video platform",
+  "short_name": "prototype",
+  "description": "Language-first video platform prototype. Demo data unless a backend is configured.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f5f2",
+  "theme_color": "#1f5f5b",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
